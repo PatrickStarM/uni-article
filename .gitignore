@@ -32,3 +32,4 @@ build/
 ### VS Code ###
 .vscode/
 /uni-article-app/.hbuilderx/
+/uni-article-api/target/

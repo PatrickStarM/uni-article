@@ -1,24 +1,25 @@
 <template>
-	<view>
+	<view class="bg-white">
+		<!-- 状态栏 -->
 		<!-- #ifndef MP-WEIXIN -->
 		<uni-status-bar></uni-status-bar>
-		<view @tap="back()" class="iconfont icon-guanbi flex align-center justify-center font-lg size-100">
+		<view @tap="back()" class="iconfont icon-guanbi mt-5 ml-5 font-lg text-muted size-100">
 		</view>
 		<!-- #endif -->
 		<template v-if="choice">
-			<view class="">
-				<view class="text-center py-5">
+			<view>
+				<view class="text-center" style="padding-top: 130rpx;padding-bottom: 130rpx;">
 					<text class="h3 text-body">账号密码登录</text>
 				</view>
-				<view class="flex mb-2 px-2">
+				<view class="flex mb-1 p-1">
 					<input type="text" v-model="phone" placeholder="请输入手机号" class="border-bottom p-2 flex-1">
 				</view>
-				<view class="flex mb-2 px-2">
+				<view class="flex mb-1 p-1">
 					<input type="password" v-model="password" placeholder="请输入密码" class="border-bottom p-2 flex-1">
-					<text class="flex align-center font-sm text-muted p-3">忘记密码?</text>
+					<text class="font-sm text-muted px-3 flex align-center">忘记密码?</text>
 				</view>
 				<view class="p-2">
-					<button class="rounded-circle bg-pink text-white" :disabled="!canSubmit" @tap="login">登录</button>
+					<button class="rounded-circle bg-pink text-white" @tap="login">登录</button>
 				</view>
 			</view>
 			<view class="flex flex-1"></view>
@@ -56,7 +57,7 @@
 				</view>
 				
 				<view class="p-2">
-					<button class="rounded-circle bg-pink text-white" :disabled="!canSubmit">登录</button>
+					<button class="rounded-circle bg-pink text-white">登录</button>
 				</view>
 			</view>
 			
@@ -99,6 +100,7 @@
 
 <script>
 	import uniStatusBar from '@/components/uni/uni-status-bar/uni-status-bar.vue'
+	import $C from '@/common/config.js'
 	export default {
 		components:{
 			uniStatusBar
@@ -106,37 +108,36 @@
 		data() {
 			return {
 				choice: true,
-				phone: '17000000000',
-				password: '',
+				phone: '17606186124',
+				password: '123456',
 				verifyCode: '',
 				canSubmit: false,
 				limitTime: 0,
 				canGetCode: true
-				
 			}
 		},
-		watch: {
-			verifyCode: {
-				handler(newValue, oldValue) {
-					if(newValue!==""){
-						this.canSubmit = true
-					}else{
-						this.canSubmit = false
-					}
-				}
+		// watch: {
+		// 	verifyCode: {
+		// 		handler(newValue, oldValue) {
+		// 			if(newValue!==""){
+		// 				this.canSubmit = true
+		// 			}else{
+		// 				this.canSubmit = false
+		// 			}
+		// 		}
 				
-			},
-			password: {
-				handler(newValue, oldValue) {
-					if(newValue!==""){
-						this.canSubmit = true
-					}else{
-						this.canSubmit = false
-					}
-				}
+		// 	},
+		// 	password: {
+		// 		handler(newValue, oldValue) {
+		// 			if(newValue!==""){
+		// 				this.canSubmit = true
+		// 			}else{
+		// 				this.canSubmit = false
+		// 			}
+		// 		}
 				
-			}
-		},
+		// 	}
+		// },
 		methods: {
 			back() {
 				// uni.showToast({
@@ -148,9 +149,9 @@
 				})
 			},
 			loginChoice(){
-				this.choice = !this.choice,
-				this.password="",
-				this.verifyCode=""
+				this.choice = !this.choice
+				// this.password="",
+				// this.verifyCode=""
 			},
 			validate() {
 			  //手机号正则
@@ -167,18 +168,37 @@
 			},
 			login() {
 				//账号密码登录
-				// let data = {
-				// 	phone: this.phone,
-				// 	password: this.password
-				// }
-				// const url = "";
-				// uni.request({
-				// 	url:url,
-				// 	method: 'POST',
-				// 	data: data
-				// }).then((res)=>{
-				// 	console.log(res)
-				// })
+				let data = {
+					phone: this.phone,
+					password: this.password
+				}
+				const url = "http://localhost:8080/api/v1/users/login";
+				uni.request({
+					url: url,
+					method: 'POST',
+					data: data
+				}).then((res)=>{
+					if(res[1].data.code === 1) {
+						uni.showToast({
+							title: '登录成功！',
+							duration: 1000
+						});
+						uni.setStorage({
+							key: 'user',
+							data: res[1].data.data,
+							success: function() {
+								uni.switchTab({
+									url: '../my/my'
+								})
+							}
+						});
+					}else{
+						uni.showToast({
+							title: res[1].data.msg,
+							duration: 1000
+						});
+					}
+				})
 			},
 			getCode() {
 				this.canGetCode = !this.canGetCode

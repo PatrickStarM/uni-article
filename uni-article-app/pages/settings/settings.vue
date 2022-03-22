@@ -26,8 +26,8 @@
 			</uni-list-item>
 		</view>
 		
-		<view class="p-2">
-			<button class="rounded-circle bg-pink text-white shadow" @tap="open('login')">退出登录</button>
+		<view class="mt-1">
+			<button class="rounded-circle bg-pink text-white shadow" @tap="logout">退出登录</button>
 		</view>
 	</view>
 </template>
@@ -53,6 +53,23 @@
 			open(path) {
 				uni.navigateTo({
 					url: `../${path}/${path}`
+				})
+			},
+			//退出登录
+			logout() {
+				uni.showModal({
+					content: '是否要注销登录？',
+					success: res => {
+						uni.clearStorageSync();
+						//返回上一级页面
+						uni.navigateBack({
+							delta: 1
+						});
+						uni.showToast({
+							title: '已注销登录',
+							icon: 'none'
+						});
+					}
 				})
 			}
 		}

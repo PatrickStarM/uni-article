@@ -17,4 +17,13 @@
 	@import url("./common/icon.css");
 	@import url("./common/base.css");
 	@import url("./common/style.css");
+	
+	page {
+		background: #f6f6f6;
+		height: 100%;
+	}
+	
+	::-webkit-scrollbar {
+		display: none;
+	}
 </style>
