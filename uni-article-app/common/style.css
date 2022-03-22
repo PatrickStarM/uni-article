@@ -1,0 +1,39 @@
+.bg-pink {
+	background-color: #FE6699;
+}
+.text-pink {
+	color: #FE6699;
+}
+.bg-pink-disabled {
+	background-color: #FD9FB0;
+}
+.text-blue-qq {
+	color: #33c9ff;
+}
+.text-green-wechat {
+	color: #50ec7b;
+}
+.text-red-weibo {
+	color: #dd001b;
+}
+.size-200 {
+	width: 200rpx;
+	height: 200rpx;
+}
+.size-300 {
+	width: 300rpx;
+	height: 300rpx;
+}
+.size-350 {
+	width: 350rpx;
+	height: 350rpx;
+}
+.size-400 {
+	width: 400rpx;
+	height: 400rpx;
+}
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}
